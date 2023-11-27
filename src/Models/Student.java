@@ -85,4 +85,40 @@ public class Student {
     public void setPassword(String password) {
         Password = password;
     }
+    public boolean checkUser() throws SQLException {
+
+        String query = "SELECT * FROM Student WHERE UserName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+
+        resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next()){
+            query = "SELECT * FROM Teacher WHERE UserName = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, UserName);
+
+            resultSet = preparedStatement.executeQuery();
+        }
+
+        return resultSet.next();
+    }
+    public boolean register() throws SQLException {
+
+        String query = "INSERT INTO Student VALUES (?, ?, ?, ?, ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, UserName);
+        preparedStatement.setString(2, FirstName);
+        preparedStatement.setString(3, LastName);
+        preparedStatement.setString(4,Email);
+        preparedStatement.setString(5, Password);
+
+        int resultSet = preparedStatement.executeUpdate();
+
+        return resultSet >= 1;
+    }
 }
