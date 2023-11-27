@@ -27,6 +27,19 @@ public class Teacher {
         connection = DriverManager.getConnection(url, dbusername, dbpassword);
     }
 
+    public boolean login() throws SQLException {
+
+        String query = "SELECT * FROM Teacher WHERE UserName = ? AND Password = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, UserName);
+        preparedStatement.setString(2, Password);
+
+        resultSet = preparedStatement.executeQuery();
+
+        return resultSet.next();
+    }
 
     public String getUserName() {
         return UserName;

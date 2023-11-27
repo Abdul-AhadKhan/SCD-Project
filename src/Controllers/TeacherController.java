@@ -15,5 +15,11 @@ public class TeacherController {
     public TeacherController() throws SQLException, ClassNotFoundException {
         teacher = new Teacher();
     }
+    public boolean login(String username, String password) throws SQLException {
 
+        teacher.setUserName(username);
+        teacher.setPassword(password);
+
+        return teacher.login();
+    }
 }
