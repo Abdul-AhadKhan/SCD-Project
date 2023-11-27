@@ -22,4 +22,20 @@ public class TeacherController {
 
         return teacher.login();
     }
+
+
+    public boolean register(String username, String firstname, String lastname, String email, String password) throws SQLException {
+
+        teacher.setUserName(username);
+        teacher.setFirstName(firstname);
+        teacher.setLastName(lastname);
+        teacher.setEmail(email);
+        teacher.setPassword(password);
+
+        if (!teacher.checkUser()){
+            return teacher.register();
+        }
+
+        return false;
+    }
 }

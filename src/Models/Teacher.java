@@ -16,6 +16,8 @@ public class Teacher {
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
 
+
+
     public Teacher() throws SQLException, ClassNotFoundException {
         UserName = "";
         FirstName = "";
@@ -39,6 +41,46 @@ public class Teacher {
         resultSet = preparedStatement.executeQuery();
 
         return resultSet.next();
+
+
+    }
+
+    public boolean checkUser() throws SQLException {
+
+        String query = "SELECT * FROM Teacher WHERE UserName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+
+        resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next()){
+
+            query = "SELECT * FROM Student WHERE UserName = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, UserName);
+
+            resultSet = preparedStatement.executeQuery();
+        }
+        return resultSet.next();
+    }
+
+    public boolean register() throws SQLException {
+
+        String query = "INSERT INTO Teacher VALUES (?, ?, ?, ?, ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, UserName);
+        preparedStatement.setString(2, FirstName);
+        preparedStatement.setString(3, LastName);
+        preparedStatement.setString(4,Email);
+        preparedStatement.setString(5, Password);
+
+        int resultSet = preparedStatement.executeUpdate();
+
+        return resultSet >= 1;
     }
 
     public String getUserName() {
