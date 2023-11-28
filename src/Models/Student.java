@@ -141,7 +141,36 @@ public class Student {
         return  null;
     }
 
-    public String getUserName() {
+
+    public boolean checkReview(String className) throws SQLException {
+
+        String query = "SELECT * FROM RatingnReview WHERE StudentName = ? AND ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, this.UserName);
+        preparedStatement.setString(2, className);
+        resultSet = preparedStatement.executeQuery();
+
+        return resultSet.next();
+
+    }
+
+    public boolean submitReview (String className, int rating, String review) throws SQLException {
+
+        String query = "INSERT INTO RatingnReview VALUES (?, ?, ?, ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, this.UserName);
+        preparedStatement.setString(2, className);
+        preparedStatement.setInt(3, rating);
+        preparedStatement.setString(4, review);
+        int result = preparedStatement.executeUpdate();
+
+        return result >= 1;
+
+    }
+
+        public String getUserName() {
         return UserName;
     }
 
