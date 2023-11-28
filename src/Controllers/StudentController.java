@@ -40,6 +40,7 @@ public class StudentController {
         return student.getClasses();
     }
 
+
     public ArrayList<ArrayList<String>> getAllClasses(String studentName) throws SQLException {
 
         student.setUserName(studentName);
@@ -60,6 +61,10 @@ public class StudentController {
 
     public HashMap<String, String> getLectures(String className) throws SQLException {
         return student.getLectures(className);
+    }
+
+    public byte[] getLecture(String title, String className) throws SQLException {
+        return student.getLecture(title, className);
     }
 
 }

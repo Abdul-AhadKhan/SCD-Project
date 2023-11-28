@@ -123,6 +123,24 @@ public class Student {
 
     }
 
+
+    public byte[] getLecture(String title, String className) throws SQLException {
+
+        String query = "SELECT Video FROM Lecture WHERE ClassName = ? AND Title = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+        preparedStatement.setString(2, title);
+        resultSet = preparedStatement.executeQuery();
+
+        byte[] videoData;
+        if (resultSet.next()){
+            videoData = resultSet.getBytes("Video");
+            return videoData;
+        }
+        return  null;
+    }
+
     public String getUserName() {
         return UserName;
     }
