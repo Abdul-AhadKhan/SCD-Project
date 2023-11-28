@@ -67,4 +67,17 @@ public class StudentController {
         return student.getLecture(title, className);
     }
 
+
+    public boolean checkReiew(String studentName, String className) throws SQLException {
+
+        student.setUserName(studentName);
+        return student.checkReview(className);
+    }
+
+    public boolean submitReview(String studentName, String className, int rating, String review) throws SQLException {
+
+        student.setUserName(studentName);
+        return student.submitReview(className, rating, review);
+    }
+
 }
