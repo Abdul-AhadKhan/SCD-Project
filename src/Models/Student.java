@@ -59,6 +59,54 @@ public class Student {
         return classes;
     }
 
+    public ArrayList<ArrayList<String>> getAllClasses() throws SQLException {
+
+        String query = "SELECT * FROM Classroom WHERE ClassName NOT IN (SELECT ClassName FROM StudentInClass WHERE StudentName = ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+
+        resultSet = preparedStatement.executeQuery();
+        ArrayList<ArrayList<String>> classes = new ArrayList<>();
+
+        while (resultSet.next()){
+            ArrayList<String> classDetails = new ArrayList<>();
+            classDetails.add(resultSet.getString("TeacherName"));
+            classDetails.add(resultSet.getString("ClassName"));
+            classDetails.add(resultSet.getString("Description"));
+            classes.add(classDetails);
+        }
+        return classes;
+    }
+
+
+    public boolean checkAlreadyJoined(String className) throws SQLException {
+
+        String query = "SELECT * FROM StudentInClass WHERE StudentName = ? AND ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+        preparedStatement.setString(2, className);
+
+        resultSet = preparedStatement.executeQuery();
+
+        return resultSet.next();
+    }
+
+    public boolean joinClass(String className) throws SQLException {
+
+        String query = "INSERT INTO StudentInClass VALUES (?, ?, CURDATE())";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+        preparedStatement.setString(2, className);
+
+
+        int result = preparedStatement.executeUpdate();
+
+        return result >= 1;
+    }
+
     public String getUserName() {
         return UserName;
     }
@@ -134,4 +182,6 @@ public class Student {
 
         return resultSet >= 1;
     }
+
+
 }

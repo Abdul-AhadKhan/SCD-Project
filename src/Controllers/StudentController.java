@@ -38,4 +38,22 @@ public class StudentController {
         student.setUserName(username);
         return student.getClasses();
     }
+
+    public ArrayList<ArrayList<String>> getAllClasses(String studentName) throws SQLException {
+
+        student.setUserName(studentName);
+        return student.getAllClasses();
+    }
+
+    public boolean checkAlreadyJoined(String studentName, String className) throws SQLException {
+
+        student.setUserName(studentName);
+        return student.checkAlreadyJoined(className);
+    }
+
+    public boolean joinClass(String studentName, String className) throws SQLException {
+
+        student.setUserName(studentName);
+        return student.joinClass(className);
+    }
 }
