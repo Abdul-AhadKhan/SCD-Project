@@ -4,6 +4,7 @@ package Controllers;
 import Models.Student;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class StudentController {
     Student student;
@@ -33,4 +34,8 @@ public class StudentController {
         return false;
     }
 
+    public HashMap<String, String> getClasses(String username) throws SQLException {
+        student.setUserName(username);
+        return student.getClasses();
+    }
 }

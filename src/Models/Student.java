@@ -45,6 +45,19 @@ public class Student {
         return resultSet.next();
     }
 
+    public HashMap<String, String> getClasses() throws SQLException {
+
+        String query = "SELECT Classroom.ClassName ClassName, Classroom.TeacherName TeacherName FROM StudentInClass JOIN Classroom ON StudentInClass.ClassName = Classroom.ClassName WHERE StudentName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+        resultSet = preparedStatement.executeQuery();
+        HashMap<String, String> classes = new HashMap<>();
+        while(resultSet.next()){
+            classes.put(resultSet.getString("ClassName"), resultSet.getString("TeacherName"));
+        }
+        return classes;
+    }
 
     public String getUserName() {
         return UserName;
