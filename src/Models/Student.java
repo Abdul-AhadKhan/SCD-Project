@@ -107,6 +107,22 @@ public class Student {
         return result >= 1;
     }
 
+    public HashMap<String, String> getLectures(String className) throws SQLException {
+
+        String query = "SELECT Title, Description FROM Lecture WHERE ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+        resultSet = preparedStatement.executeQuery();
+
+        HashMap<String, String> lectures = new HashMap<>();
+        while(resultSet.next()){
+            lectures.put(resultSet.getString("Title"), resultSet.getString("Description"));
+        }
+        return lectures;
+
+    }
+
     public String getUserName() {
         return UserName;
     }

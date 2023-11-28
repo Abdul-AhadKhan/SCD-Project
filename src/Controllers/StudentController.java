@@ -4,6 +4,7 @@ package Controllers;
 import Models.Student;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StudentController {
@@ -56,4 +57,9 @@ public class StudentController {
         student.setUserName(studentName);
         return student.joinClass(className);
     }
+
+    public HashMap<String, String> getLectures(String className) throws SQLException {
+        return student.getLectures(className);
+    }
+
 }

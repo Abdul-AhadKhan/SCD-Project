@@ -192,7 +192,8 @@ public class Login extends JFrame {
         String password = jTextField2.getText();
 
         if (studentController.login(username, password)){
-
+            StudentHomeScreen studentHome = new StudentHomeScreen(username);
+            studentHome.setVisible(true);
         }
 
         else {
@@ -205,7 +206,9 @@ public class Login extends JFrame {
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, ClassNotFoundException {
-
+        Register register = new Register();
+        dispose();
+        register.setVisible(true);
     }
 
     /**
