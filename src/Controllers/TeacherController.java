@@ -42,4 +42,15 @@ public class TeacherController {
 
         return false;
     }
+    public boolean checkClassName(String teacherName, String className) throws SQLException {
+
+        teacher.setUserName(teacherName);
+        return teacher.checkClassName(className);
+    }
+
+    public boolean createClass(String teacherName, String className, String description) throws SQLException {
+
+        teacher.setUserName(teacherName);
+        return teacher.createClass(className, description);
+    }
 }

@@ -96,6 +96,30 @@ public class Teacher {
         }
         return classes;
     }
+    public boolean checkClassName(String className) throws SQLException {
+
+        String query = "SELECT * FROM Classroom WHERE ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+
+        resultSet = preparedStatement.executeQuery();
+
+        return resultSet.next();
+    }
+
+    public boolean createClass(String className, String description) throws SQLException {
+
+        String query = "INSERT INTO Classroom VALUES (?, ?, ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, this.UserName);
+        preparedStatement.setString(2, className);
+        preparedStatement.setString(3, description);
+        int result = preparedStatement.executeUpdate();
+
+        return result >= 1;
+    }
     public String getUserName() {
         return UserName;
     }
