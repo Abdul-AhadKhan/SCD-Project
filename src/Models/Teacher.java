@@ -1,6 +1,7 @@
 package Models;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class Teacher {
@@ -82,7 +83,19 @@ public class Teacher {
 
         return resultSet >= 1;
     }
+    public ArrayList<String> getClasses() throws SQLException {
 
+        String query = "SELECT ClassName FROM Classroom WHERE TeacherName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, UserName);
+        resultSet = preparedStatement.executeQuery();
+        ArrayList<String> classes = new ArrayList<>();
+        while(resultSet.next()){
+            classes.add(resultSet.getString("ClassName"));
+        }
+        return classes;
+    }
     public String getUserName() {
         return UserName;
     }

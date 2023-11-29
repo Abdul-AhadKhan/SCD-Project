@@ -23,7 +23,11 @@ public class TeacherController {
         return teacher.login();
     }
 
+    public ArrayList<String> getClasses(String username) throws SQLException {
 
+        teacher.setUserName(username);
+        return teacher.getClasses();
+    }
     public boolean register(String username, String firstname, String lastname, String email, String password) throws SQLException {
 
         teacher.setUserName(username);
