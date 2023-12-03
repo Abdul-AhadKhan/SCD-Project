@@ -161,6 +161,116 @@ public class Teacher {
 
         return result >= 1;
     }
+
+
+    public List<Question> getQuestions(String category, String diffficulty) throws IOException, InterruptedException {
+
+        var url = "https://quizapi.io/api/v1/questions?apiKey=024j93f95YcObn0lEvgqrHQVzqPtYtWepSCaL5wK&category=" + category + "&difficulty=" + diffficulty + "&limit=10";
+
+        var request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+
+        var client = HttpClient.newBuilder().build();
+
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200 ) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Question> questions = objectMapper.readValue(response.body(), new TypeReference<List<Question>>() {
+            });
+
+            return questions;
+
+        }
+
+        return new ArrayList<Question>();
+    }
+
+    public boolean postQuiz(String title, String className, List<Question> questions) throws SQLException {
+
+        String query = "INSERT INTO Quiz VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String correctAnswer = "";
+        int result = 0;
+
+        for (int i = 0; i < questions.size(); i++) {
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, className);
+            preparedStatement.setString(2, title);
+            preparedStatement.setString(3, questions.get(i).question);
+            preparedStatement.setString(4, questions.get(i).answers.answer_a);
+            preparedStatement.setString(5, questions.get(i).answers.answer_b);
+            preparedStatement.setString(6, questions.get(i).answers.answer_c);
+            preparedStatement.setString(7, questions.get(i).answers.answer_d);
+            preparedStatement.setString(8, questions.get(i).answers.answer_e);
+            preparedStatement.setString(9, questions.get(i).answers.answer_f);
+            correctAnswer = "";
+
+            if (questions.get(i).correct_answers.answer_a_correct){
+                correctAnswer = correctAnswer + "a";
+            }
+            if (questions.get(i).correct_answers.answer_b_correct){
+                if (!correctAnswer.isEmpty()){
+                    correctAnswer = correctAnswer + ",b";
+                }
+                else{
+                    correctAnswer = correctAnswer + "b";
+                }
+            }
+            if (questions.get(i).correct_answers.answer_c_correct){
+                if (!correctAnswer.isEmpty()){
+                    correctAnswer = correctAnswer + ",c";
+                }
+                else{
+                    correctAnswer = correctAnswer + "c";
+                }
+            }
+            if (questions.get(i).correct_answers.answer_d_correct){
+                if (!correctAnswer.isEmpty()){
+                    correctAnswer = correctAnswer + ",d";
+                }
+                else{
+                    correctAnswer = correctAnswer + "d";
+                }
+            }
+            if (questions.get(i).correct_answers.answer_e_correct){
+                if (!correctAnswer.isEmpty()){
+                    correctAnswer = correctAnswer + ",e";
+                }
+                else{
+                    correctAnswer = correctAnswer + "e";
+                }
+            }
+            if (questions.get(i).correct_answers.answer_f_correct){
+                if (!correctAnswer.isEmpty()){
+                    correctAnswer = correctAnswer + ",f";
+                }
+                else{
+                    correctAnswer = correctAnswer + "f";
+                }
+            }
+            preparedStatement.setString(10, correctAnswer);
+
+            result = preparedStatement.executeUpdate();
+        }
+
+        return result > 0;
+    }
+
+    public boolean checkQuizTitle(String title, String className) throws SQLException {
+
+        String query = "SELECT * FROM Quiz WHERE title = ? AND ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, className);
+        resultSet = preparedStatement.executeQuery();
+
+        return resultSet.next();
+    }
+
+
     public String getUserName() {
         return UserName;
     }
