@@ -58,4 +58,16 @@ public class TeacherController {
         return teacher.getLectures(className);
     }
 
+
+    public boolean checkQuizTitle(String title, String className) throws SQLException {
+        return teacher.checkQuizTitle(title, className);
+    }
+    public List<Question> getQuestions(String category, String difficulty) throws IOException, InterruptedException {
+        return teacher.getQuestions(category, difficulty);
+    }
+
+    public boolean postQuiz(String title, String className, List<Question> questions) throws SQLException {
+        return teacher.postQuiz(title, className, questions);
+    }
+
 }
