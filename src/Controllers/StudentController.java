@@ -80,4 +80,12 @@ public class StudentController {
         return student.submitReview(className, rating, review);
     }
 
+    public ArrayList<String> getQuizes(String className) throws SQLException {
+        return student.getQuizes(className);
+    }
+
+    public List<Question> getQuestions(String title, String className) throws SQLException {
+        return student.getQuestions(title, className);
+    }
+
 }

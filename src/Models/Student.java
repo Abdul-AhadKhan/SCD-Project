@@ -170,6 +170,8 @@ public class Student {
 
     }
 
+
+
         public String getUserName() {
         return UserName;
     }
@@ -246,5 +248,67 @@ public class Student {
         return resultSet >= 1;
     }
 
+
+    public ArrayList<String> getQuizes(String className) throws SQLException {
+
+        String query = "SELECT DISTINCT Title FROM Quiz WHERE ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+        resultSet = preparedStatement.executeQuery();
+
+        ArrayList<String> quizes = new ArrayList<>();
+        while (resultSet.next()){
+            quizes.add(resultSet.getString("Title"));
+        }
+        return quizes;
+    }
+
+    public List<Question> getQuestions(String title, String className) throws SQLException {
+
+        String query = "SELECT * FROM Quiz WHERE Title = ? AND ClassName = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, className);
+        resultSet = preparedStatement.executeQuery();
+
+        List<Question> questions = new ArrayList<>();
+
+        while (resultSet.next()){
+
+            Question question = new Question();
+            question.question = resultSet.getString("Question");
+            question.answers.answer_a = resultSet.getString("OptionA");
+            question.answers.answer_b = resultSet.getString("OptionB");
+            question.answers.answer_c = resultSet.getString("OptionC");
+            question.answers.answer_d = resultSet.getString("OptionD");
+            question.answers.answer_e = resultSet.getString("OptionE");
+            question.answers.answer_f = resultSet.getString("OptionF");
+            String[] correctOptions = resultSet.getString("CorrectOption").split(",");
+            for (int i = 0; i < correctOptions.length; i++){
+                if (correctOptions[i].trim().equalsIgnoreCase("a")){
+                    question.correct_answers.answer_a_correct = true;
+                }
+                else if (correctOptions[i].trim().equalsIgnoreCase("b")){
+                    question.correct_answers.answer_b_correct = true;
+                }
+                else if (correctOptions[i].trim().equalsIgnoreCase("c")){
+                    question.correct_answers.answer_c_correct = true;
+                }
+                else if (correctOptions[i].trim().equalsIgnoreCase("d")){
+                    question.correct_answers.answer_d_correct = true;
+                }
+                else if (correctOptions[i].trim().equalsIgnoreCase("e")){
+                    question.correct_answers.answer_e_correct = true;
+                }
+                else if (correctOptions[i].trim().equalsIgnoreCase("f")){
+                    question.correct_answers.answer_f_correct = true;
+                }
+            }
+            questions.add(question);
+        }
+        return questions;
+    }
 
 }
