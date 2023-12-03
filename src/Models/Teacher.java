@@ -374,6 +374,38 @@ public class Teacher {
         return result >= 1;
 
     }
+
+    public HashMap<Integer, Integer> studentsJoinedClassroom(String className) throws SQLException {
+
+        String query = "SELECT COUNT(*) AS StudentJoined, MONTH (DateJoined) AS Month FROM StudentInClass WHERE ClassName = ? GROUP BY MONTH (DateJoined)";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+
+        resultSet = preparedStatement.executeQuery();
+
+        HashMap<Integer, Integer> studentsJoined = new HashMap<>();
+        while (resultSet.next()){
+            studentsJoined.put(resultSet.getInt("Month"), resultSet.getInt("StudentJoined"));
+        }
+
+        return studentsJoined;
+    }
+
+    public HashMap<Integer, Integer> rating(String className) throws SQLException {
+
+        String query = "SELECT COUNT(*) AS Rating, Rating AS Value FROM RatingnReview WHERE ClassName = ? GROUP BY Rating";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+
+        resultSet = preparedStatement.executeQuery();
+        HashMap<Integer, Integer> rating = new HashMap<>();
+        while (resultSet.next()){
+            rating.put(resultSet.getInt("Value"), resultSet.getInt("Rating"));
+        }
+        return rating;
+    }
     public String getUserName() {
         return UserName;
     }

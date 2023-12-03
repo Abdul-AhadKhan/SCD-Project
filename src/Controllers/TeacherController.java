@@ -97,4 +97,12 @@ public class TeacherController {
     public boolean reply(int commentId, String reply) throws SQLException {
         return teacher.reply(commentId, reply);
     }
+
+    public HashMap<Integer, Integer> studentsJoinedClassroom(String className) throws SQLException {
+        return teacher.studentsJoinedClassroom(className);
+    }
+
+    public HashMap<Integer, Integer> rating(String className) throws SQLException {
+        return teacher.rating(className);
+    }
 }
