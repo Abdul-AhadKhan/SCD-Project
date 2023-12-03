@@ -75,5 +75,26 @@ public class TeacherController {
     public boolean postQuiz(String title, String className, List<Question> questions) throws SQLException {
         return teacher.postQuiz(title, className, questions);
     }
+    public HashMap<Integer, ArrayList<String>> getStudentComments(String title, String className) throws SQLException {
+        return teacher.getStudentComments(title, className);
+    }
 
+    public HashMap<Integer, String> getTeacherComments(String title, String className) throws SQLException {
+        return teacher.getTeacherComments(title, className);
+    }
+
+    public String getReply(int id) throws SQLException {
+        return teacher.getReply(id);
+    }
+
+    public int comment(String title, String className, String comment) throws SQLException {
+        return teacher.comment(title, className, comment);
+    }
+
+    public boolean checkReply(int commentId) throws SQLException {
+        return teacher.checkReply(commentId);
+    }
+    public boolean reply(int commentId, String reply) throws SQLException {
+        return teacher.reply(commentId, reply);
+    }
 }

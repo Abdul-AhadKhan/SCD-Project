@@ -170,7 +170,89 @@ public class Student {
 
     }
 
+    public HashMap<Integer, ArrayList<String>> getStudentComments(String title, String className) throws SQLException {
 
+        String query = "SELECT * FROM Comments WHERE LectureTitle = ? AND ClassName = ? AND TeacherComment = FALSE ORDER BY Time DESC";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, className);
+        resultSet = preparedStatement.executeQuery();
+
+        HashMap<Integer, ArrayList<String>> comments = new HashMap<>();
+        while (resultSet.next()){
+            ArrayList<String> comment = new ArrayList<String>();
+            comment.add(resultSet.getString("UserName"));
+            comment.add(resultSet.getString("Comment"));
+            comments.put(resultSet.getInt("Id"), comment);
+        }
+        return comments;
+    }
+
+    public HashMap<Integer, String> getTeacherComments(String title, String className) throws SQLException {
+
+        String query = "SELECT * FROM Comments WHERE LectureTitle = ? AND ClassName = ? AND TeacherComment = TRUE ORDER BY Time DESC";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, className);
+        resultSet = preparedStatement.executeQuery();
+
+        HashMap<Integer, String> comments = new HashMap<>();
+        while (resultSet.next()){
+            comments.put(resultSet.getInt("Id"), resultSet.getString("Comment"));
+        }
+        return comments;
+    }
+
+    public String getReply(int id) throws SQLException {
+
+        String query = "SELECT * FROM Replies WHERE Id = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            return resultSet.getString("Reply");
+        }
+        else{
+            return "";
+        }
+    }
+
+    public int comment(String username, String title, String className, String comment) throws SQLException {
+
+        String query = "SELECT MAX(Id) AS Id FROM Comments";
+
+        preparedStatement = connection.prepareStatement(query);
+        resultSet = preparedStatement.executeQuery();
+        int id = 0;
+        if (resultSet.next()){
+            id = resultSet.getInt("Id") + 1;
+        }
+        else{
+            id = 1;
+        }
+
+        query = "INSERT INTO Comments VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        preparedStatement.setString(2, username);
+        preparedStatement.setString(3, comment);
+        preparedStatement.setString(4, title);
+        preparedStatement.setString(5, className);
+        preparedStatement.setBoolean(6, false);
+
+        int result = preparedStatement.executeUpdate();
+
+        if (result >= 1){
+            return id;
+        }
+        else{
+            return 0;
+        }
+    }
 
         public String getUserName() {
         return UserName;

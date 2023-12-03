@@ -87,5 +87,19 @@ public class StudentController {
     public List<Question> getQuestions(String title, String className) throws SQLException {
         return student.getQuestions(title, className);
     }
+    public HashMap<Integer, ArrayList<String>> getStudentComments(String title, String className) throws SQLException {
+        return student.getStudentComments(title, className);
+    }
 
+    public HashMap<Integer, String> getTeacherComments(String title, String className) throws SQLException {
+        return student.getTeacherComments(title, className);
+    }
+
+    public String getReply(int id) throws SQLException {
+        return student.getReply(id);
+    }
+
+    public int comment(String username, String title, String className, String comment) throws SQLException {
+        return student.comment(username, title, className, comment);
+    }
 }
