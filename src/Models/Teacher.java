@@ -137,7 +137,30 @@ public class Teacher {
         return lectures;
     }
 
+    public boolean checkLectureTitle(String className, String title) throws SQLException {
 
+        String query = "SELECT * FROM Lecture WHERE ClassName = ? AND Title = ?";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+        preparedStatement.setString(2, title);
+
+        resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }
+    public boolean uploadLecture(String className, String title, String description, byte[] fileData) throws SQLException {
+
+        String query = "INSERT INTO Lecture VALUES (?, ?, ?, ?)";
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, className);
+        preparedStatement.setString(2, title);
+        preparedStatement.setString(3, description);
+        preparedStatement.setBytes(4, fileData);
+        int result = preparedStatement.executeUpdate();
+
+        return result >= 1;
+    }
     public String getUserName() {
         return UserName;
     }

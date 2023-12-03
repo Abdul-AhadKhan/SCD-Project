@@ -57,5 +57,11 @@ public class TeacherController {
     public HashMap<String, String> getLectures(String className) throws SQLException {
         return teacher.getLectures(className);
     }
+    public boolean checkLectureTitle(String className, String title) throws SQLException {
+        return teacher.checkLectureTitle(className, title);
+    }
 
+    public boolean uploadlecture(String classname, String title, String description, byte[] fileData) throws SQLException {
+        return teacher.uploadLecture(classname, title, description, fileData);
+    }
 }
