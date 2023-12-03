@@ -53,4 +53,9 @@ public class TeacherController {
         teacher.setUserName(teacherName);
         return teacher.createClass(className, description);
     }
+
+    public HashMap<String, String> getLectures(String className) throws SQLException {
+        return teacher.getLectures(className);
+    }
+
 }
